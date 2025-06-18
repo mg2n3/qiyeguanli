@@ -208,8 +208,8 @@
             <select name="positionId">
                 <option value="">所有岗位</option>
                 <c:forEach var="position" items="${positionList}">
-                    <option value="${position.id}"
-                        ${param.positionId == position.id ? 'selected' : ''}>
+                    <option value="${position.positionId}"
+                            <c:if test="${param.positionId == position.positionId}">selected</c:if>>
                             ${position.positionName}
                     </option>
                 </c:forEach>
@@ -218,12 +218,13 @@
             <select name="departmentId">
                 <option value="">所有部门</option>
                 <c:forEach var="department" items="${departmentList}">
-                    <option value="${department.id}"
-                        ${param.departmentId == department.id ? 'selected' : ''}>
+                    <option value="${department.departmentId}"
+                            <c:if test="${param.departmentId == department.departmentId}">selected</c:if>>
                             ${department.departmentName}
                     </option>
                 </c:forEach>
             </select>
+
 
             <button type="submit">搜索</button>
         </form>
