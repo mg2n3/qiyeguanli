@@ -1,9 +1,11 @@
 package com.cg.mapper;
 
 import com.cg.entity.Salary;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
+@Mapper
 public interface SalaryMapper {
     // 移除所有 SQL 注解，只保留方法声明
 
@@ -12,11 +14,13 @@ public interface SalaryMapper {
             @Param("departmentId") Integer departmentId
     );
 
+    // Mapper 接口中改为：
     int countOtherByPositionAndDepartment(
-            @Param("id") Integer id,
+            @Param("salaryId") Integer salaryId,
             @Param("positionId") Integer positionId,
             @Param("departmentId") Integer departmentId
     );
+
 
     List<Salary> findByPositionAndDepartment(
             @Param("position") String position,
@@ -33,6 +37,6 @@ public interface SalaryMapper {
     );
 
     // SalaryMapper.java
-    void updateSalary(@Param("salary") Salary salary); // 确保接收完整对象
+    void updateSalary(Salary salary); // 确保接收完整对象
     List<Salary> getAllSalaries();
 }

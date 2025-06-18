@@ -113,16 +113,26 @@ public class SalaryController {
             @Valid @ModelAttribute("salaryDTO") SalaryRequestDTO salaryDTO,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes) {
+        System.out.println(">>> 进入 updateSalary 方法，salaryId = " + salaryId);
+
+        System.out.println("salaryDTO = " + salaryDTO);
+        System.out.println("bindingResult.hasErrors = " + bindingResult.hasErrors());
+
 
         if (bindingResult.hasErrors()) {
+            System.out.println("进入");
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.salaryDTO", bindingResult);
             redirectAttributes.addFlashAttribute("salaryDTO", salaryDTO);
             return "redirect:/salary/edit/" + salaryId;
         }
 
+        System.out.println(">>> 尝试进入 try 之前");
+
         try {
+            System.out.println(">>> try 块中");
             // 检查是否已存在其他相同岗位和部门的薪资记录
             if (salaryService.existsOtherSalary(salaryId, salaryDTO.getPositionId(), salaryDTO.getDepartmentId())) {
+                System.out.println(">>> 已存在其他相同岗位和部门的记录，阻止更新");
                 redirectAttributes.addFlashAttribute("error", "该岗位和部门已有其他薪资记录");
                 redirectAttributes.addFlashAttribute("salaryDTO", salaryDTO);
                 return "redirect:/salary/edit/" + salaryId;
@@ -130,6 +140,7 @@ public class SalaryController {
 
             // 更新薪资
             salaryService.updateSalary(salaryId, salaryDTO);
+            System.out.println("更新");
             redirectAttributes.addFlashAttribute("success", "薪资更新成功！");
             return "redirect:/salary/list";
 
@@ -138,6 +149,8 @@ public class SalaryController {
             redirectAttributes.addFlashAttribute("salaryDTO", salaryDTO);
             return "redirect:/salary/edit/" + salaryId;
         }
+
+
     }
 
     // 删除薪资信息

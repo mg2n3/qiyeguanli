@@ -58,15 +58,18 @@
     <!-- 更新薪资记录 -->
     <update id="updateSalary" parameterType="com.cg.entity.Salary">
         UPDATE yk_salary
-        <set>
+        <trim prefix="SET" suffixOverrides=",">
             <if test="positionId != null">position_id = #{positionId},</if>
             <if test="departmentId != null">department_id = #{departmentId},</if>
             <if test="overtimeSalary != null">overtime_salary = #{overtimeSalary},</if>
             <if test="attendanceSalary != null">attendance_salary = #{attendanceSalary},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
-        </set>
+        </trim>
         WHERE salary_id = #{salaryId}
     </update>
+
+
+
 
     <!-- 删除薪资记录 -->
     <delete id="deleteSalary" parameterType="int">

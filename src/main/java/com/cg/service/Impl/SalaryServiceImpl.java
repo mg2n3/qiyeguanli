@@ -39,8 +39,12 @@ public class SalaryServiceImpl implements SalaryService {
 
     @Override
     public boolean existsOtherSalary(Integer salaryId, Integer positionId, Integer departmentId) {
-        return salaryMapper.countOtherByPositionAndDepartment(salaryId, positionId, departmentId) > 0;
+        System.out.println(">>> 进入 existsOtherSalary，salaryId=" + salaryId + ", positionId=" + positionId + ", departmentId=" + departmentId);
+        int count = salaryMapper.countOtherByPositionAndDepartment(salaryId, positionId, departmentId);
+        System.out.println(">>> countOtherByPositionAndDepartment 查询结果为：" + count);
+        return count > 0;
     }
+
 
     @Override
     public List<Salary> getSalariesByPositionAndDepartment(Integer positionId, Integer departmentId) {
@@ -87,6 +91,7 @@ public class SalaryServiceImpl implements SalaryService {
 
         // 执行更新
         salaryMapper.updateSalary(existingSalary); // 确保传递完整对象
+
         return existingSalary;
     }
 }

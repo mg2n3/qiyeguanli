@@ -4,48 +4,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>编辑薪资</title>
-    <!-- jquery -->
-    <script type="text/javascript" src="${pageContext.request.contextPath}/static/jquery-3.6.1.js"></script>
-    <!-- layer -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/layer/theme/default/layer.css"/>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/static/layer/layer.js"></script>
-    <!-- common可删 -->
-    <%--    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/common.css"/>--%>
-    <%--    <script type="text/javascript" src="${pageContext.request.contextPath}/static/common.js"></script>--%>
-    <!-- 引入bootstrap -->
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/bootstrap/css/bootstrap.css">
-    <script type="text/javascript" src="${pageContext.request.contextPath}/static/bootstrap/js/bootstrap.js"></script>
-    <!-- 引入bootstrap-select -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/bootstrap-select/css/bootstrap-select.css"/>
-    <script type="text/javascript"
-            src="${pageContext.request.contextPath}/static/bootstrap-select/js/bootstrap-select.js"></script>
-    <script type="text/javascript"
-            src="${pageContext.request.contextPath}/static/bootstrap-select/js/bootstrap-select-ext.js"></script>
-    <!-- popper(新增) -->
-    <script type="text/javascript" src="${pageContext.request.contextPath}/static/popper.js"></script>
-    <style>
-        /* 谷歌字体 */
-        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
 
-        /* CSS变量 */
+    <!-- jQuery -->
+    <script src="${pageContext.request.contextPath}/static/jquery-3.6.1.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/bootstrap/css/bootstrap.css">
+    <script src="${pageContext.request.contextPath}/static/bootstrap/js/bootstrap.js"></script>
+
+    <!-- 样式 -->
+    <style>
         :root {
             --first-color: #0C5DF4;
             --bg-color: #F5F5F5;
-            --sub-color: #B6CEFC;
             --white-color: #FFF;
-            /* 字体 */
             --body-font: 'Poppins', sans-serif;
             --normal-font-size: 1rem;
-            --small-font-size: .875rem;
-        }
-
-        /* 基础规定 */
-        *, ::before, ::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
         }
         body {
             font-family: var(--body-font);
@@ -55,8 +30,6 @@
         }
         .content {
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
             min-height: 100vh;
         }
@@ -66,10 +39,6 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             width: 400px;
             padding: 30px;
-            transition: transform 0.3s ease;
-        }
-        .form-container:hover {
-            transform: translateY(-5px);
         }
         h2 {
             text-align: center;
@@ -77,10 +46,8 @@
             color: var(--first-color);
         }
         label {
-            display: block;
             margin-top: 15px;
             margin-bottom: 5px;
-            color: #333;
             font-weight: 500;
         }
         select, input[type="number"], button {
@@ -88,22 +55,17 @@
             padding: 12px;
             border: 1px solid #ddd;
             border-radius: 6px;
-            font-family: var(--body-font);
             font-size: var(--normal-font-size);
         }
         button {
             background-color: var(--first-color);
             color: white;
             border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
             margin-top: 20px;
-            padding: 12px;
+            font-weight: 600;
         }
         button:hover {
             background-color: #0a4bc8;
-            transform: scale(1.02);
         }
         .button-group {
             display: flex;
@@ -122,42 +84,44 @@
     <div class="form-container">
         <h2>编辑薪资</h2>
         <form action="${pageContext.request.contextPath}/salary/update/${salaryDTO.salaryId}" method="post">
-            <!-- 添加CSRF令牌 -->
+            <!-- CSRF Token -->
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+            <!-- Hidden ID -->
+            <input type="hidden" name="salaryId" value="${salaryDTO.salaryId}" />
 
-            <!-- 确保有隐藏的salaryId字段 -->
-            <input type="hidden" name="salaryId" value="${salaryDTO.salaryId}">
-
+            <!-- 岗位 -->
             <label for="positionId">岗位:</label>
             <select id="positionId" name="positionId" required>
                 <option value="">请选择岗位</option>
                 <c:forEach var="position" items="${positionList}">
-                    <option value="${position.id}"
-                        ${salaryDTO.positionId == position.id ? 'selected' : ''}>
+                    <option value="${position.positionId}" <c:if test="${salaryDTO.positionId == position.positionId}">selected</c:if>>
                             ${position.positionName}
                     </option>
                 </c:forEach>
             </select>
 
+            <!-- 部门 -->
             <label for="departmentId">部门:</label>
             <select id="departmentId" name="departmentId" required>
                 <option value="">请选择部门</option>
                 <c:forEach var="department" items="${departmentList}">
-                    <option value="${department.id}"
-                        ${salaryDTO.departmentId == department.id ? 'selected' : ''}>
+                    <option value="${department.departmentId}" <c:if test="${salaryDTO.departmentId == department.departmentId}">selected</c:if>>
                             ${department.departmentName}
                     </option>
                 </c:forEach>
             </select>
 
+            <!-- 加班薪资 -->
             <label for="overtimeSalary">加班薪资 (¥):</label>
             <input type="number" id="overtimeSalary" name="overtimeSalary"
-                   value="${salaryDTO.overtimeSalary}" required step="0.01" min="0" placeholder="输入加班薪资">
+                   value="${salaryDTO.overtimeSalary}" required step="0.01" min="0" placeholder="输入加班薪资" />
 
+            <!-- 考勤薪资 -->
             <label for="attendanceSalary">考勤薪资 (¥):</label>
             <input type="number" id="attendanceSalary" name="attendanceSalary"
-                   value="${salaryDTO.attendanceSalary}" required step="0.01" min="0" placeholder="输入考勤薪资">
+                   value="${salaryDTO.attendanceSalary}" required step="0.01" min="0" placeholder="输入考勤薪资" />
 
+            <!-- 按钮 -->
             <div class="button-group">
                 <button type="submit" class="btn-update">更新薪资</button>
                 <button type="button" class="btn-back" onclick="history.back()">返回</button>
@@ -165,5 +129,18 @@
         </form>
     </div>
 </div>
+
+<!-- 表单提交调试 -->
+<script>
+    $('form').on('submit', function () {
+        console.log("提交内容：", {
+            salaryId: $('input[name="salaryId"]').val(),
+            positionId: $('#positionId').val(),
+            departmentId: $('#departmentId').val(),
+            overtimeSalary: $('#overtimeSalary').val(),
+            attendanceSalary: $('#attendanceSalary').val()
+        });
+    });
+</script>
 </body>
 </html>

@@ -33,6 +33,7 @@ public class UserController {
     public String login(HttpServletRequest request, Model model) {
         String no = request.getParameter("username");
         String password = request.getParameter("password");
+        System.out.println("测试");
 
         String employeeName=employeeService.findByEmployeeId(no);
 
