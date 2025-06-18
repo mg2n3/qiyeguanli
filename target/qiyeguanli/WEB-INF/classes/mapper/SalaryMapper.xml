@@ -89,4 +89,11 @@
           AND position_id = #{positionId}
           AND department_id = #{departmentId}
     </select>
+
+    <select id="getSalaryByPositionAndDepartment" resultType="com.cg.entity.Salary">
+        SELECT * FROM yk_salary
+        WHERE position_id = #{positionId}
+          AND department_id = #{departmentId}
+    </select>
+
 </mapper>

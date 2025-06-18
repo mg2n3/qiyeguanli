@@ -94,4 +94,10 @@ public class SalaryServiceImpl implements SalaryService {
 
         return existingSalary;
     }
+
+    @Override
+    public Salary getSalaryByPositionAndDepartment(Integer positionId, Integer departmentId) {
+        return salaryMapper.getSalaryByPositionAndDepartment(positionId, departmentId);
+    }
+
 }

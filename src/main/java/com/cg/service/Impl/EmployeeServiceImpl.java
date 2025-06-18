@@ -69,4 +69,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeMapper.findEmployeeByDepartment(departmentId);
     }
 
+    @Override
+    public Employee findByUserId(Integer userId) {
+        return employeeMapper.getByUserId(userId); // mapper 中定义的
+    }
 }

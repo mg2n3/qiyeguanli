@@ -26,8 +26,8 @@
         @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
         /*===== CSS变量 =====*/
         :root {
-            --first-color: #f9f1f1fa;
-            --bg-color: #090909be;
+            --first-color: #0C5DF4;
+            --bg-color: #F5F5F5;
             --sub-color: #B6CEFC;
             --white-color: #FFF;
             /*===== 字体 =====*/
@@ -52,7 +52,7 @@
         h1 {
             margin: 0;
             text-align: center;
-            color: var(--bg-color);
+            color: var(--first-color);
         }
         ul {
             margin: 0;
@@ -65,18 +65,15 @@
 
         .content {
             position: relative;
-            margin-left: 80px;
-            width: 90%;
+            width: 100%;
             min-height: calc(100vh - 4rem); /* 减去顶部和底部的padding */
             overflow: auto;
             display: flex;
             flex-direction: column;
             align-items: center;
-            background:url(<c:url value='/static/员工管理.jpg'/>)
         }
 
         .header-container {
-
             display: flex;
             justify-content: space-between;
             width: 100%;
@@ -122,7 +119,7 @@
         .add-button {
             padding: 8px 16px;
             background-color: var(--first-color);
-            color: var(--bg-color);
+            color: var(--white-color);
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -148,7 +145,6 @@
         .add-button i {
             margin-right: 5px;
             font-size: 1.2em;
-
         }
 
         .table-container {
@@ -171,14 +167,11 @@
 
         th {
             background-color: var(--first-color);
-            color: var(--bg-color);
+            color: var(--white-color);
         }
 
         tr:hover {
-            background-color: #c5c0c0;
-        }
-        button{
-            color:var(--bg-color);
+            background-color: #f1f1f1;
         }
 
         .inline-form {
@@ -197,8 +190,8 @@
         }
 
         .delete-button {
-            background-color: #dc35461b; /* 红色背景 */
-            color: var(--bg-color); /* 白色文字 */
+            background-color: #dc3545; /* 红色背景 */
+            color: var(--white-color); /* 白色文字 */
         }
 
         .delete-button:hover {
@@ -206,8 +199,8 @@
         }
 
         .edit-button {
-            background-color: #06431468; /* 绿色背景 */
-            color: var(--bg-color);
+            background-color: #28a745; /* 绿色背景 */
+            color: var(--white-color); /* 白色文字 */
         }
 
         .edit-button:hover {
@@ -217,9 +210,9 @@
 </head>
 <body>
 <div class="content">
-    <!-- <% if (request.getAttribute("employeeError") != null) { %>
+    <% if (request.getAttribute("employeeError") != null) { %>
     <div id="error-message"><%= request.getAttribute("employeeError") %></div>
-    <% } %> -->
+    <% } %>
     <h1>员工管理</h1>
     <div class="header-container">
         <div class="add-button-container">
@@ -233,13 +226,13 @@
             <form action="${pageContext.request.contextPath}/employee/searchEmployee" method="get">
                 <input type="text" name="employeeName" placeholder="员工姓名">
                 <input type="text" name="phone" placeholder="员工电话">
-                <!-- <%--                <select name="status">--%>
+<%--                <select name="status">--%>
 <%--                    <option value="">所有状态</option>--%>
 <%--                    <option value="1">正常</option>--%>
 <%--                    <option value="0">停用</option>--%>
-<%--                </select>--%> -->
-                <button type="submit" style="color: #0f0f0f;">查询</button>
-                <button type="button" class="reset-button" onclick="resetSearch()"style="color: #0f0f0f;">重置</button>
+<%--                </select>--%>
+                <button type="submit">查询</button>
+                <button type="button" class="reset-button" onclick="resetSearch()">重置</button>
             </form>
         </div>
     </div>
@@ -251,7 +244,7 @@
                 <th>员工电话</th>
                 <th>员工所属部门</th>
                 <th>员工岗位</th>
-                <!-- <%--                <th>状态</th>--%> -->
+<%--                <th>状态</th>--%>
                 <th>加入时间</th>
                 <th>操作</th>
             </tr>
@@ -274,12 +267,12 @@
                             </c:if>
                         </c:forEach>
                     </td>
-                    <!-- <%--                    <td>--%>
+<%--                    <td>--%>
 <%--                        <c:choose>--%>
 <%--                            <c:when test="${employee.status == 0}">正常</c:when>--%>
 <%--                            <c:when test="${employee.status == 1}">停用</c:when>--%>
 <%--                        </c:choose>--%>
-<%--                    </td>--%> -->
+<%--                    </td>--%>
                     <td><fmt:formatDate value="${employee.hireDate}" pattern="yyyy年MM月dd日"/></td>
                     <td>
                         <form action="${pageContext.request.contextPath}/employee/updateEmployee?employeeId=${employee.employeeId}" method="post" class="inline-form">

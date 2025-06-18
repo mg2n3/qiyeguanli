@@ -1,22 +1,20 @@
 package com.cg.controller;
 
-import com.cg.entity.Department;
-import com.cg.entity.Employee;
-import com.cg.entity.Position;
-import com.cg.entity.User;
-import com.cg.service.DepartmentService;
-import com.cg.service.EmployeeService;
-import com.cg.service.PositionService;
-import com.cg.service.UserService;
+import com.cg.entity.*;
+import com.cg.service.*;
 import com.cg.util.Md5Util;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/employee")
@@ -29,6 +27,8 @@ public class EmployeeController {
     DepartmentService departmentService;
     @Autowired
     UserService userService;
+    @Autowired
+    SalaryService  salaryService;
 
     @RequestMapping(value = "/List")
     public String department(HttpServletRequest request, Model model){
@@ -117,4 +117,41 @@ public class EmployeeController {
         request.getSession().setAttribute("employeeList", employeetList);
         return "employee";
     }
+
+    @GetMapping("/salary")
+    public String viewMySalary(HttpSession session, Model model) {
+        Employee employee = (Employee) session.getAttribute("employee");
+
+        if (employee == null) {
+            model.addAttribute("error", "请先登录员工账户");
+            return "error"; // 可自定义错误页面
+        }
+
+        // 获取薪资构成
+        Salary salary = salaryService.getSalaryByPositionAndDepartment(employee.getPositionId(), employee.getDepartmentId());
+        Position position = positionService.getPositionById(employee.getPositionId());
+        Department department = departmentService.getDepartmentById(employee.getDepartmentId());
+
+        BigDecimal totalSalary = BigDecimal.ZERO;
+        if (salary != null) {
+            totalSalary = totalSalary
+                    .add(Optional.ofNullable(salary.getAttendanceSalary()).orElse(BigDecimal.ZERO))
+                    .add(Optional.ofNullable(salary.getOvertimeSalary()).orElse(BigDecimal.ZERO));
+        }
+        if (position != null) {
+            totalSalary = totalSalary.add(Optional.ofNullable(position.getPositionSalary()).orElse(BigDecimal.ZERO));
+        }
+        if (department != null) {
+            totalSalary = totalSalary.add(Optional.ofNullable(department.getDepartmentSalary()).orElse(BigDecimal.ZERO));
+        }
+
+        model.addAttribute("employee", employee);
+        model.addAttribute("position", position);
+        model.addAttribute("department", department);
+        model.addAttribute("salary", salary);
+        model.addAttribute("totalSalary", totalSalary);
+
+        return "my_salary"; // JSP 页面
+    }
+
 }

@@ -14,5 +14,9 @@
             </if>
         </where>
     </select>
+    <select id="getDepartmentById" resultType="com.cg.entity.Department">
+        SELECT * FROM yk_department WHERE department_id = #{id}
+    </select>
+
 </mapper>
 

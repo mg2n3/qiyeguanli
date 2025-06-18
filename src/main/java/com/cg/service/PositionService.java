@@ -13,13 +13,14 @@ public interface PositionService {
 
     Position findPositionById(Integer positionId);
 
-    int findByName(String positionName,Integer positionId);
+    int findByName(String positionName, Integer positionId);
 
     void editPosition(String positionName, Integer status, String code, Integer positionId);
 
     void deleteposition(Integer positionId);
 
-        List<Position> getAllPositions();
+    List<Position> getAllPositions();
 
+    Position getPositionById(Integer id);
 
 }

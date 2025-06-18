@@ -1,5 +1,6 @@
 package com.cg.controller;
 
+import com.cg.entity.Employee;
 import com.cg.service.EmployeeService;
 import com.cg.service.UserService;
 import com.cg.entity.User;
@@ -33,28 +34,29 @@ public class UserController {
     public String login(HttpServletRequest request, Model model) {
         String no = request.getParameter("username");
         String password = request.getParameter("password");
-        System.out.println("测试");
 
-        String employeeName=employeeService.findByEmployeeId(no);
-
-
-        if(no.equals("")  || password.equals("")){
+        if (no == null || no.isEmpty() || password == null || password.isEmpty()) {
             model.addAttribute("loginError", "请输入账号和密码");
-            return "/login"; // 假设登录页面的路径是 /user/login
+            return "/login";
         }
 
+        // 登录验证
         User user = userService.login(no, password);
-        User user1 = userService.login(employeeName, password);
         if (user != null) {
+            // 将登录用户放入 session
             request.getSession().setAttribute("user", user);
+
+            // 查询该用户是否对应员工身份（通过 userId 查找员工表）
+            Employee employee = employeeService.findByUserId(user.getId());
+            if (employee != null) {
+                // 是员工身份，放入 session
+                request.getSession().setAttribute("employee", employee);
+            }
+
             return "/home";
         } else {
-            if (user1 != null){
-                request.getSession().setAttribute("user", user1);
-                return "/home";
-            }
             model.addAttribute("loginError", "用户名或密码错误");
-            return "/login"; // 假设登录页面的路径是 /user/login
+            return "/login";
         }
     }
     @RequestMapping(value = "/logout", method = RequestMethod.POST)

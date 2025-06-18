@@ -61,4 +61,7 @@ public interface SalaryService {
      * @return 薪资列表
      */
     List<Salary> searchSalaries(Integer positionId, Integer departmentId);
+
+    Salary getSalaryByPositionAndDepartment(Integer positionId, Integer departmentId);
+
 }

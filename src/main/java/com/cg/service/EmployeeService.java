@@ -27,4 +27,7 @@ public interface EmployeeService {
     int findEmployeeByPosition(Integer positionId);
 
     int findEmployeeByDepartment(Integer departmentId);
+
+    Employee findByUserId(Integer userId);
+
 }

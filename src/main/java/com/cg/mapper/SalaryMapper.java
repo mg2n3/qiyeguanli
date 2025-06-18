@@ -39,4 +39,7 @@ public interface SalaryMapper {
     // SalaryMapper.java
     void updateSalary(Salary salary); // 确保接收完整对象
     List<Salary> getAllSalaries();
+
+    Salary getSalaryByPositionAndDepartment(@Param("positionId") Integer positionId, @Param("departmentId") Integer departmentId);
+
 }

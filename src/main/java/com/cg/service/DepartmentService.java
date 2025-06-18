@@ -22,4 +22,7 @@ public interface DepartmentService {
     void deleteDepartment(Integer departmentId);
 
     List<Department> getAllDepartments();
+
+    Department getDepartmentById(Integer id);
+
 }

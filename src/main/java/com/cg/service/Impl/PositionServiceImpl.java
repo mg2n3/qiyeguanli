@@ -51,4 +51,8 @@ public class PositionServiceImpl implements PositionService {
         // 实现方法逻辑
         return positionMapper.positionList(null,null,null);
     }
+    @Override
+    public Position getPositionById(Integer id) {
+        return positionMapper.getPositionById(id);
+    }
 }

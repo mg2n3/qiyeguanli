@@ -29,4 +29,7 @@ public interface EmployeeMapper {
     int findEmployeeByPosition(Integer positionId);
     @Select("select count(*) from yk_employee where department_id=#{departmentId}")
     int findEmployeeByDepartment(Integer departmentId);
+    @Select("SELECT * FROM yk_employee WHERE user_id = #{userId} LIMIT 1")
+    Employee getByUserId(@Param("userId") Integer userId);
+
 }

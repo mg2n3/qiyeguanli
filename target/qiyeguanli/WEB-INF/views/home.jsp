@@ -235,6 +235,12 @@
                         <span class="nav__name">数据统计</span>
                     </a>
                 </c:if>
+                <c:if test="${not empty sessionScope.employee}">
+                    <a href="#" class="nav__link" onclick="loadMySalaryPage()">
+                        <ion-icon name="cash-outline" class="nav__icon"></ion-icon>
+                        <span class="nav__name">我的薪资</span>
+                    </a>
+                </c:if>
                 <a href="#" class="nav__link" onclick="loadSettingsPage()">
                     <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
                     <span class="nav__name">设置</span>
@@ -382,6 +388,11 @@
     window.onload = function() {
         loadMainPage();
     };
+    function loadMySalaryPage() {
+        const url = "${pageContext.request.contextPath}/employee/salary";
+        document.getElementById('contentFrame').src = url;
+    }
+
 </script>
 </body>
 </html>

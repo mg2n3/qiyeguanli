@@ -17,4 +17,9 @@
             </if>
         </where>
     </select>
+
+    <select id="getPositionById" resultType="com.cg.entity.Position">
+        SELECT * FROM yk_position WHERE position_id = #{id}
+    </select>
+
 </mapper>
