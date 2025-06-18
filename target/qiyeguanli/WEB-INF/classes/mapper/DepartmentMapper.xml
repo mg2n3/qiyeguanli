@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.cg.mapper.DepartmentMapper">
+    <select id="departmentList" resultType="com.cg.entity.Department">
+        SELECT * FROM yk_department
+        <where>
+            <if test="departmentName != null and departmentName.trim() != ''">
+                AND department_name LIKE CONCAT('%', #{departmentName}, '%')
+            </if>
+            <if test="departmentCode != null and departmentCode.trim() != ''">
+                AND department_code LIKE CONCAT('%', #{departmentCode}, '%')
+            </if>
+        </where>
+    </select>
+</mapper>
+

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cg.mapper.PositionMapper">
+    <select id="positionList" resultType="com.cg.entity.Position">
+        SELECT * FROM yk_position
+        <where>
+            <if test="code != null and code.trim() != ''">
+                AND code LIKE CONCAT('%', #{code}, '%')
+           </if>
+            <if test="positionName != null and positionName.trim() != ''">
+                AND position_name LIKE CONCAT('%', #{positionName}, '%')
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           https://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/mvc
+                           https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--SpringMVC注解驱动，向容器中注册SpringMVC框架运行需要的组件Bean-->
+    <mvc:annotation-driven/>
+    <!-- 将控制器扫描到容器中 -->
+    <context:component-scan base-package="com.cg.controller"/>
+
+    <!--CORS跨域全局配置-->
+    <mvc:cors>
+        <mvc:mapping path="/api/**"
+                     allowed-origins="http://127.0.0.1:8848"/>
+    </mvc:cors>
+
+    <!--配置视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+    <!--静态资源访问映射路径-->
+    <mvc:resources location="/static/" mapping="/static/**"/>
+
+    <!--将全局异常处理组件扫描到容器中-->
+<!--    <context:component-scan base-package="com.cg.exception"/>-->
+
+
+    <!-- 配置拦截器 -->
+    <mvc:interceptors>
+        <!-- 定义指定路径的拦截器 -->
+        <mvc:interceptor>
+            <mvc:mapping path="/employee/**"/>
+            <mvc:mapping path="/department/**"/>
+            <mvc:mapping path="/leave/**"/>
+            <mvc:mapping path="/data/**"/>
+            <mvc:mapping path="/position/**"/>
+            <mvc:mapping path="/attendance/**"/>
+            <!-- 配置拦截器不需要拦截的路径 -->
+            <mvc:exclude-mapping path="/user/login"/>
+            <!-- 指定拦截器全限定类型-->
+            <bean class="com.cg.interceptor.LoginInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+</beans>

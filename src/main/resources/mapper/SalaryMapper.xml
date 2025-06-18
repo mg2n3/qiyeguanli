@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cg.mapper.SalaryMapper">
+
+    <!-- 统一结果映射 -->
+    <resultMap id="salaryResultMap" type="com.cg.entity.Salary">
+        <id property="salaryId" column="salary_id"/>
+        <result property="positionId" column="position_id"/>
+        <result property="departmentId" column="department_id"/>
+        <result property="overtimeSalary" column="overtime_salary"/>
+        <result property="attendanceSalary" column="attendance_salary"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!-- 查询所有薪资记录 -->
+    <select id="getAllSalaries" resultMap="salaryResultMap">
+        SELECT * FROM yk_salary
+    </select>
+
+    <!-- 带条件查询薪资记录 -->
+    <select id="getSalariesByPositionAndDepartment" resultMap="salaryResultMap">
+        SELECT * FROM yk_salary
+        <where>
+            <if test="positionId != null">
+                position_id = #{positionId}
+            </if>
+            <if test="departmentId != null">
+                AND department_id = #{departmentId}
+            </if>
+        </where>
+    </select>
+
+    <!-- 根据ID查询薪资记录 -->
+    <select id="getSalaryById" resultMap="salaryResultMap" parameterType="int">
+        SELECT * FROM yk_salary WHERE salary_id = #{salaryId}
+    </select>
+
+    <!-- 添加薪资记录 -->
+    <insert id="addSalary" parameterType="com.cg.entity.Salary"
+            useGeneratedKeys="true" keyProperty="salaryId" keyColumn="salary_id">
+        INSERT INTO yk_salary (
+            position_id,
+            department_id,
+            overtime_salary,
+            attendance_salary,
+            create_time
+        ) VALUES (
+                     #{positionId},
+                     #{departmentId},
+                     #{overtimeSalary},
+                     #{attendanceSalary},
+                     #{createTime}
+                 )
+    </insert>
+
+    <!-- 更新薪资记录 -->
+    <update id="updateSalary" parameterType="com.cg.entity.Salary">
+        UPDATE yk_salary
+        <set>
+            <if test="positionId != null">position_id = #{positionId},</if>
+            <if test="departmentId != null">department_id = #{departmentId},</if>
+            <if test="overtimeSalary != null">overtime_salary = #{overtimeSalary},</if>
+            <if test="attendanceSalary != null">attendance_salary = #{attendanceSalary},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </set>
+        WHERE salary_id = #{salaryId}
+    </update>
+
+    <!-- 删除薪资记录 -->
+    <delete id="deleteSalary" parameterType="int">
+        DELETE FROM yk_salary WHERE salary_id = #{salaryId}
+    </delete>
+
+    <!-- 检查岗位和部门组合是否存在 -->
+    <select id="countByPositionAndDepartment" resultType="int">
+        SELECT COUNT(*) FROM yk_salary
+        WHERE position_id = #{positionId} AND department_id = #{departmentId}
+    </select>
+
+    <!-- 检查其他记录中相同的岗位和部门组合 -->
+    <select id="countOtherByPositionAndDepartment" resultType="int">
+        SELECT COUNT(*) FROM yk_salary
+        WHERE salary_id != #{salaryId}
+          AND position_id = #{positionId}
+          AND department_id = #{departmentId}
+    </select>
+</mapper>

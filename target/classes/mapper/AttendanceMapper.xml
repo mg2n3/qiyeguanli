@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cg.mapper.AttendanceMapper">
+    <select id="attendanceList" resultType="com.cg.entity.Attendance">
+        SELECT * FROM yk_attendance
+        <where>
+            <if test="date != null and date.trim() != ''">
+                AND date = #{date}
+            </if>
+            <if test="state != null">
+                AND state = #{state}
+            </if>
+            <if test="departmentId != null">
+                AND department_id = #{departmentId}
+            </if>
+        </where>
+    </select>
+</mapper>
+
+
+

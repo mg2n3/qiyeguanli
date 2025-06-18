@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cg.mapper.EmployeeMapper">
+    <select id="employeeList" resultType="com.cg.entity.Employee">
+        SELECT * FROM yk_employee
+        <where>
+            <if test="phone != null and phone.trim() != ''">
+                AND phone LIKE CONCAT('%', #{phone}, '%')
+            </if>
+            <if test="employeeName != null and employeeName.trim() != ''">
+                AND employee_name LIKE CONCAT('%', #{employeeName}, '%')
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+            <if test="departmentId != null">
+                AND department_id = #{departmentId}
+            </if>
+        </where>
+    </select>
+</mapper>
