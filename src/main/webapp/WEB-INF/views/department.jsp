@@ -19,7 +19,7 @@
         @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
         /*===== CSS变量 =====*/
         :root {
-            --first-color: #0C5DF4;
+            --first-color: #A5BBB2;
             --bg-color: #F5F5F5;
             --sub-color: #B6CEFC;
             --white-color: #FFF;
@@ -57,13 +57,15 @@
         }
 
         .content {
+            margin-left: 80px;
             position: relative;
-            width: 100%;
+            width: 90%;
             min-height: calc(100vh - 4rem); /* 减去顶部和底部的padding */
             overflow: auto;
             display: flex;
             flex-direction: column;
             align-items: center;
+            background: url('<c:url value="/static/部门管理.jpg"/>');
         }
 
         .header-container {
@@ -73,6 +75,10 @@
             max-width: 1200px;
             margin-bottom: 20px;
             align-items: center;
+        }
+        .content1{
+            width: 80%;
+            background-color: #ddd;
         }
 
         .search-container {
@@ -164,7 +170,7 @@
         }
 
         tr:hover {
-            background-color: #f1f1f1;
+            background-color: #f1f1f1c7;
         }
 
         .inline-form {
@@ -183,73 +189,75 @@
         }
 
         .delete-button {
-            background-color: #dc3545; /* 红色背景 */
+            background-color: #e324379a; /* 红色背景 */
             color: var(--white-color); /* 白色文字 */
         }
 
         .delete-button:hover {
-            background-color: #c82333; /* 深红色背景，鼠标悬浮时 */
+            background-color: #e7bcc1; /* 深红色背景，鼠标悬浮时 */
         }
 
         .edit-button {
-            background-color: #28a745; /* 绿色背景 */
+            background-color: #14e04393; /* 绿色背景 */
             color: var(--white-color); /* 白色文字 */
         }
 
         .edit-button:hover {
-            background-color: #218838; /* 深绿色背景，鼠标悬浮时 */
+            background-color: #c5e2cb; /* 深绿色背景，鼠标悬浮时 */
         }
     </style>
 </head>
 <body>
 <div class="content">
-    <% if (request.getAttribute("departmentError") != null) { %>
-    <div id="error-message"><%= request.getAttribute("departmentError") %></div>
-    <% } %>
-    <h1>部门管理</h1>
-    <div class="header-container">
-        <div class="add-button-container">
-            <form action="${pageContext.request.contextPath}/department/add" method="post" class="inline-form" id="addPositionForm">
-                <button type="submit" class="add-button">
-                    <i class="ion-ios-add"></i> 新增部门
-                </button>
-            </form>
+    <div class="content1">
+        <% if (request.getAttribute("departmentError") != null) { %>
+        <div id="error-message"><%= request.getAttribute("departmentError") %></div>
+        <% } %>
+        <h1>部门管理</h1>
+        <div class="header-container">
+            <div class="add-button-container">
+                <form action="${pageContext.request.contextPath}/department/add" method="post" class="inline-form" id="addPositionForm">
+                    <button type="submit" class="add-button">
+                        <i class="ion-ios-add"></i> 新增部门
+                    </button>
+                </form>
+            </div>
+            <div class="search-container">
+                <form action="${pageContext.request.contextPath}/department/searchDepartment" method="get">
+                    <input type="text" name="departmentCode" placeholder="部门编码">
+                    <input type="text" name="departmentName" placeholder="部门名称">
+                    <button type="submit">查询</button>
+                    <button type="button" class="reset-button" onclick="resetSearch()">重置</button>
+                </form>
+            </div>
         </div>
-        <div class="search-container">
-            <form action="${pageContext.request.contextPath}/department/searchDepartment" method="get">
-                <input type="text" name="departmentCode" placeholder="部门编码">
-                <input type="text" name="departmentName" placeholder="部门名称">
-                <button type="submit">查询</button>
-                <button type="button" class="reset-button" onclick="resetSearch()">重置</button>
-            </form>
-        </div>
-    </div>
-    <div class="table-container">
-        <table>
-            <tr>
-                <th>部门编号</th>
-                <th>部门编码</th>
-                <th>部门名称</th>
-                <th>创建时间</th>
-                <th>操作</th>
-            </tr>
-            <c:forEach var="department" items="${departmentList}" varStatus="bianhao">
+        <div class="table-container">
+            <table>
                 <tr>
-                    <td>${bianhao.index + 1}</td>
-                    <td>${department.departmentCode}</td>
-                    <td>${department.departmentName}</td>
-                    <td><fmt:formatDate value="${department.createTime}" pattern="yyyy年MM月dd日"/></td>
-                    <td>
-                        <form action="${pageContext.request.contextPath}/department/updateDepartment?departmentId=${department.departmentId}" method="post" class="inline-form">
-                            <button type="submit" class="edit-button">修改</button>
-                        </form>
-                        <form action="${pageContext.request.contextPath}/department/deleteDepartment?departmentId=${department.departmentId}" method="post" class="inline-form" onsubmit="return confirmDelete();">
-                            <button type="submit" class="delete-button">删除</button>
-                        </form>
-                    </td>
+                    <th>部门编号</th>
+                    <th>部门编码</th>
+                    <th>部门名称</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
                 </tr>
-            </c:forEach>
-        </table>
+                <c:forEach var="department" items="${departmentList}" varStatus="bianhao">
+                    <tr>
+                        <td>${bianhao.index + 1}</td>
+                        <td>${department.departmentCode}</td>
+                        <td>${department.departmentName}</td>
+                        <td><fmt:formatDate value="${department.createTime}" pattern="yyyy年MM月dd日"/></td>
+                        <td>
+                            <form action="${pageContext.request.contextPath}/department/updateDepartment?departmentId=${department.departmentId}" method="post" class="inline-form">
+                                <button type="submit" class="edit-button">修改</button>
+                            </form>
+                            <form action="${pageContext.request.contextPath}/department/deleteDepartment?departmentId=${department.departmentId}" method="post" class="inline-form" onsubmit="return confirmDelete();">
+                                <button type="submit" class="delete-button">删除</button>
+                            </form>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
     </div>
 </div>
 <script>

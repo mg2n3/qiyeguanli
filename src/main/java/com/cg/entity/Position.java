@@ -7,7 +7,6 @@ import java.util.Date;
 
 @Data
 public class Position {
-    private Integer id;
     private String positionName;
     private Integer positionId;
     private String code;

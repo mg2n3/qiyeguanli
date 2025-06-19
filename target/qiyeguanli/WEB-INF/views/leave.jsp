@@ -19,9 +19,9 @@
         @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
         /*===== CSS变量 =====*/
         :root {
-            --first-color: #0C5DF4;
+            --first-color: #0e0e0e;
             --bg-color: #F5F5F5;
-            --sub-color: #B6CEFC;
+            --sub-color: #d6dae0;
             --white-color: #FFF;
             /*===== 字体 =====*/
             --body-font: 'Poppins', sans-serif;
@@ -64,6 +64,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            background: url(<c:url value='/static/请假管理.jpg'/>);
+        }
+        .content1{
+            transform: translateY(100px);
+            background-color: #fff;
+            width: 80%;
         }
 
         .header-container {
@@ -240,86 +246,86 @@
 </head>
 <body>
 <div class="content">
-    <% if (request.getAttribute("leaveError") != null) { %>
-    <div id="error-message"><%= request.getAttribute("leaveError") %></div>
-    <% } %>
-    <h1>请假管理</h1>
-    <div class="header-container">
-        <div class="search-container">
-            <form action="${pageContext.request.contextPath}/leave/searchLeave" method="get">
-                <select name="leaveType">
-                    <option value="">请假类型</option>
-                    <option value="0">病假</option>
-                    <option value="1">事假</option>
-                    <option value="2">年假</option>
-                </select>
-                <select name="status">
-                    <option value="">状态</option>
-                    <option value="0">未审核</option>
-                    <option value="1">通过</option>
-                    <option value="2">拒绝</option>
-                </select>
-                <button type="submit">查询</button>
-                <button type="button" class="reset-button" onclick="resetSearch()">重置</button>
-            </form>
+    <div class="content1">
+        <% if (request.getAttribute("leaveError") != null) { %>
+        <div id="error-message"><%= request.getAttribute("leaveError") %></div>
+        <% } %>
+        <h1>请假管理</h1>
+        <div class="header-container">
+            <div class="search-container">
+                <form action="${pageContext.request.contextPath}/leave/searchLeave" method="get">
+                    <select name="leaveType">
+                        <option value="">请假类型</option>
+                        <option value="0">病假</option>
+                        <option value="1">事假</option>
+                        <option value="2">年假</option>
+                    </select>
+                    <select name="status">
+                        <option value="">状态</option>
+                        <option value="0">未审核</option>
+                        <option value="1">通过</option>
+                        <option value="2">拒绝</option>
+                    </select>
+                    <button type="submit">查询</button>
+                    <button type="button" class="reset-button" onclick="resetSearch()">重置</button>
+                </form>
+            </div>
         </div>
-    </div>
-    <div class="table-container">
-        <table>
-            <tr>
-                <th>编号</th>
-                <th>请假员工</th>
-                <th>请假类型</th>
-                <th>请假开始时间</th>
-                <th>请假结束时间</th>
-                <th>操作</th>
-            </tr>
-            <c:forEach var="leave" items="${leaveList}" varStatus="bianhao">
+        <div class="table-container">
+            <table>
                 <tr>
-                    <td>${bianhao.index + 1}</td>
-                    <td>
-                        <c:forEach var="employee" items="${employeeList}">
-                            <c:if test="${employee.employeeId == leave.employeeId}">
-                                ${employee.employeeName}<br>
-                            </c:if>
-                        </c:forEach>
-                    </td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${leave.leaveType == 0}">病假</c:when>
-                            <c:when test="${leave.leaveType == 1}">事假</c:when>
-                            <c:when test="${leave.leaveType == 2}">年假</c:when>
-                        </c:choose>
-                    </td>
-                    <td><fmt:formatDate value="${leave.startDate}" pattern="yyyy年MM月dd日 HH时mm分"/></td>
-                    <td><fmt:formatDate value="${leave.endDate}" pattern="yyyy年MM月dd日 HH时mm分"/></td>
-                    <td>
-                        <form action="${pageContext.request.contextPath}/leave/detailLeave?leaveId=${leave.leaveId}" method="post" class="inline-form">
-                            <button type="submit" class="detail-button">详情</button>
-                        </form>
-                        <!-- 如果是未审核状态，显示通过和拒绝按钮 -->
-                        <c:if test="${leave.status == 0 }">
-                            <form action="${pageContext.request.contextPath}/leave/updateLeave?leaveId=${leave.leaveId}&status=1" method="post" class="inline-form">
-                                <button type="submit" class="approve-button">通过</button>
-                            </form>
-                            <form action="${pageContext.request.contextPath}/leave/updateLeave?leaveId=${leave.leaveId}&status=2" method="post" class="inline-form">
-                                <button type="submit" class="reject-button">拒绝</button>
-                            </form>
-                        </c:if>
-
-                        <!-- 如果是已批准状态，显示已批准按钮 -->
-                        <c:if test="${leave.status == 1}">
-                            <span class="approved-text">已批准</span>
-                        </c:if>
-
-                        <!-- 如果是已拒绝状态，显示已拒绝按钮 -->
-                        <c:if test="${leave.status == 2}">
-                            <span class="rejected-text">已拒绝</span>
-                        </c:if>
-                    </td>
+                    <th>编号</th>
+                    <th>请假员工</th>
+                    <th>请假类型</th>
+                    <th>请假开始时间</th>
+                    <th>请假结束时间</th>
+                    <th>操作</th>
                 </tr>
-            </c:forEach>
-        </table>
+                <c:forEach var="leave" items="${leaveList}" varStatus="bianhao">
+                    <tr>
+                        <td>${bianhao.index + 1}</td>
+                        <td>
+                            <c:forEach var="employee" items="${employeeList}">
+                                <c:if test="${employee.employeeId == leave.employeeId}">
+                                    ${employee.employeeName}<br>
+                                </c:if>
+                            </c:forEach>
+                        </td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${leave.leaveType == 0}">病假</c:when>
+                                <c:when test="${leave.leaveType == 1}">事假</c:when>
+                                <c:when test="${leave.leaveType == 2}">年假</c:when>
+                            </c:choose>
+                        </td>
+                        <td><fmt:formatDate value="${leave.startDate}" pattern="yyyy年MM月dd日 HH时mm分"/></td>
+                        <td><fmt:formatDate value="${leave.endDate}" pattern="yyyy年MM月dd日 HH时mm分"/></td>
+                        <td>
+                            <form action="${pageContext.request.contextPath}/leave/detailLeave?leaveId=${leave.leaveId}" method="post" class="inline-form">
+                                <button type="submit" class="detail-button">详情</button>
+                            </form>
+                            <!-- 如果是未审核状态，显示通过和拒绝按钮 -->
+                            <c:if test="${leave.status == 0 }">
+                                <form action="${pageContext.request.contextPath}/leave/updateLeave?leaveId=${leave.leaveId}&status=1" method="post" class="inline-form">
+                                    <button type="submit" class="approve-button">通过</button>
+                                </form>
+                                <form action="${pageContext.request.contextPath}/leave/updateLeave?leaveId=${leave.leaveId}&status=2" method="post" class="inline-form">
+                                    <button type="submit" class="reject-button">拒绝</button>
+                                </form>
+                            </c:if>
+                            <!-- 如果是已批准状态，显示已批准按钮 -->
+                            <c:if test="${leave.status == 1}">
+                                <span class="approved-text">已批准</span>
+                            </c:if>
+                            <!-- 如果是已拒绝状态，显示已拒绝按钮 -->
+                            <c:if test="${leave.status == 2}">
+                                <span class="rejected-text">已拒绝</span>
+                            </c:if>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
     </div>
 </div>
 <script>

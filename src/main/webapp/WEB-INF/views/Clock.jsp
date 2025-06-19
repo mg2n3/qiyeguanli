@@ -140,7 +140,7 @@
 
 
 <div id="box">
-    <div id='time'>yangkkkk版企业管理系统</div>
+    <div id='time'>企业管理系统</div>
     <button id='signbtn' class="layui-btn layui-btn-normal">考勤签到</button>
     <br>
     <div id="place" type="button" class="layui-btn-radius">非办公地点</div>
@@ -215,7 +215,7 @@
         var location = data.formattedAddress;//具体街道位置信息
         console.log(getposition);
         //这个地方是设置打卡的位置的
-        var shanghaizone = [104.059423,30.594589];//设置的签到点
+        var shanghaizone = [106.592967,29.426123];//设置的签到点
         // 106.593613,29.426552
         // 104.059423,30.594589 成都
         // 106.590111, 29.422049 重庆

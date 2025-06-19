@@ -19,7 +19,7 @@
         @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
         /*===== CSS变量 =====*/
         :root {
-            --first-color: #0C5DF4;
+            --first-color: #072e75;
             --bg-color: #F5F5F5;
             --sub-color: #B6CEFC;
             --white-color: #FFF;
@@ -64,6 +64,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            background: url(<c:url value='/static/考勤管理.jpg'/> );
+        }
+        .content1{
+            width: 80%;
+            background-color: #f2ededc4;
         }
 
         .header-container {
@@ -241,56 +246,58 @@
 </head>
 <body>
 <div class="content">
-    <% if (request.getAttribute("attendanceError") != null) { %>
-    <div id="error-message"><%= request.getAttribute("attendanceError") %></div>
-    <% } %>
-    <h1>考勤管理</h1>
-    <div class="search-container">
-        <form action="${pageContext.request.contextPath}/attendance/searchAttendance" method="get">
-            <input type="date" name="date" placeholder="日期">
-            <select name="state">
-                <option value="">所有状态</option>
-                <option value="0">正常</option>
-                <option value="1">迟到</option>
-                <option value="2">早退</option>
-            </select>
-            <button type="submit">查询</button>
-            <button type="button" class="reset-button" onclick="resetSearch()">重置</button>
-        </form>
-    </div>
-    <div class="table-container">
-        <table>
-            <tr>
-                <th>编号</th>
-                <th>员工姓名</th>
-                <th>打卡日期</th>
-                <th>上班打卡</th>
-                <th>下班打卡</th>
-                <th>状态</th>
-            </tr>
-            <c:forEach var="attendance" items="${attendanceList}" varStatus="bianhao">
+    <div class="content1">
+        <% if (request.getAttribute("attendanceError") != null) { %>
+        <div id="error-message"><%= request.getAttribute("attendanceError") %></div>
+        <% } %>
+        <h1>考勤管理</h1>
+        <div class="search-container">
+            <form action="${pageContext.request.contextPath}/attendance/searchAttendance" method="get">
+                <input type="date" name="date" placeholder="日期">
+                <select name="state">
+                    <option value="">所有状态</option>
+                    <option value="0">正常</option>
+                    <option value="1">迟到</option>
+                    <option value="2">早退</option>
+                </select>
+                <button type="submit">查询</button>
+                <button type="button" class="reset-button" onclick="resetSearch()">重置</button>
+            </form>
+        </div>
+        <div class="table-container">
+            <table>
                 <tr>
-                    <td>${bianhao.index + 1}</td>
-                    <td>
-                        <c:forEach var="employee" items="${employeeList}">
-                            <c:if test="${employee.employeeId == attendance.employeeId}">
-                                ${employee.employeeName}<br>
-                            </c:if>
-                        </c:forEach>
-                    </td>
-                    <td><fmt:formatDate value="${attendance.date}" pattern="yyyy年MM月dd日"/></td>
-                    <td><fmt:formatDate value="${attendance.checkInTime}" pattern="HH时mm分"/></td>
-                    <td><fmt:formatDate value="${attendance.checkOutTime}" pattern="HH时mm分"/></td>
-                    <td class="${attendance.state == 0 ? 'status-normal' : (attendance.state == 1 ? 'status-late' : 'status-leave-early')}">
-                        <c:choose>
-                            <c:when test="${attendance.state == 0}">正常</c:when>
-                            <c:when test="${attendance.state == 1}">迟到</c:when>
-                            <c:when test="${attendance.state == 2}">早退</c:when>
-                        </c:choose>
-                    </td>
+                    <th>编号</th>
+                    <th>员工姓名</th>
+                    <th>打卡日期</th>
+                    <th>上班打卡</th>
+                    <th>下班打卡</th>
+                    <th>状态</th>
                 </tr>
-            </c:forEach>
-        </table>
+                <c:forEach var="attendance" items="${attendanceList}" varStatus="bianhao">
+                    <tr>
+                        <td>${bianhao.index + 1}</td>
+                        <td>
+                            <c:forEach var="employee" items="${employeeList}">
+                                <c:if test="${employee.employeeId == attendance.employeeId}">
+                                    ${employee.employeeName}<br>
+                                </c:if>
+                            </c:forEach>
+                        </td>
+                        <td><fmt:formatDate value="${attendance.date}" pattern="yyyy年MM月dd日"/></td>
+                        <td><fmt:formatDate value="${attendance.checkInTime}" pattern="HH时mm分"/></td>
+                        <td><fmt:formatDate value="${attendance.checkOutTime}" pattern="HH时mm分"/></td>
+                        <td class="${attendance.state == 0 ? 'status-normal' : (attendance.state == 1 ? 'status-late' : 'status-leave-early')}">
+                            <c:choose>
+                                <c:when test="${attendance.state == 0}">正常</c:when>
+                                <c:when test="${attendance.state == 1}">迟到</c:when>
+                                <c:when test="${attendance.state == 2}">早退</c:when>
+                            </c:choose>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
     </div>
 </div>
 <script>

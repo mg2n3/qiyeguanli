@@ -13,14 +13,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>添加岗位</title>
+    <title>添加部门</title>
     <style>
         /* 谷歌字体 */
         @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
 
         /* CSS变量 */
         :root {
-            --first-color: #0C5DF4;
+            --first-color: #f2ededbc;
             --bg-color: #F5F5F5;
             --sub-color: #B6CEFC;
             --white-color: #FFF;
@@ -46,7 +46,7 @@
         h1 {
             margin: 0;
             text-align: center;
-            color: var(--first-color);
+            color: black;
         }
         ul {
             margin: 0;
@@ -69,10 +69,12 @@
             background-color: var(--white-color);
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            width: 700px;
+            height: 800px;
             padding: 20px;
             text-align: center;
             transition: transform 0.3s ease;
+            background: url('<c:url value="/static/添加部门.jpg"/>');
         }
         .form-container:hover {
             transform: translateY(-10px);
@@ -80,7 +82,7 @@
         label {
             display: block;
             margin-top: 10px;
-            color: var(--first-color);
+            color: black;
         }
         input[type="text"], button {
             width: 100%;
@@ -88,6 +90,16 @@
             margin-top: 5px;
             border: 1px solid #ccc;
             border-radius: 5px;
+        }
+        .box1{
+            display: flex;
+        }
+        .box3{
+            margin-top: 400px;
+        }
+        .box3 button{
+            margin-right: 30px;
+
         }
         button {
             background-color: var(--first-color);
@@ -104,16 +116,22 @@
 <body>
 <div class="content">
     <div class="form-container">
-        <h2>添加岗位</h2>
+        <h2>添加部门</h2>
         <form action="${pageContext.request.contextPath}/department/addDepartment" method="post" onsubmit="return confirmAddPosition();">
-            <label for="departmentName">部门名称:</label>
-            <input type="text" id="departmentName" name="departmentName" required><br>
+            <div class="box2">
+                <div class="box1"><label for="departmentName">部门名称:</label></div>
+                <div class="box1"><input type="text" id="departmentName" name="departmentName" required><br></div>
+            </div>
 
-            <label for="departmentCode">部门编码:</label>
-            <input type="text" id="departmentCode" name="departmentCode" required><br>
+            <div class="box2">
+                <div class="box1"><label for="departmentCode">部门编码:</label></div>
+                <div class="box1"><input type="text" id="departmentCode" name="departmentCode" required><br></div>
+            </div>
 
-            <button type="submit" class="add-button">新增部门</button>
-            <button type="button" class="add-button" onclick="historyBack()">返回</button>
+            <div class="box3">
+                <button type="submit" class="add-button" style="width: 200px;color: black;">新增部门</button>
+                <button type="button" class="add-button" onclick="historyBack()" style="width: 200px;color: black;">返回</button>
+            </div>
         </form>
     </div>
 
