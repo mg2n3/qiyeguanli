@@ -1,3 +1,17 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: 86135
+  Date: 2025/1/2
+  Time: 16:38
+  To change this template use File | Settings | File Templates.
+--%>
+<%--
+  Created by IntelliJ IDEA.
+  User: 86135
+  Date: 2025/1/2
+  Time: 11:11
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -58,7 +72,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: url('<c:url value="/static/员工管理.jpg"/>');
+            background:url(<c:url value='/static/员工管理.jpg'/>)
         }
 
         .header-container {
@@ -134,6 +148,7 @@
         .add-button i {
             margin-right: 5px;
             font-size: 1.2em;
+
         }
 
         .table-container {
@@ -163,7 +178,7 @@
             background-color: #c5c0c0;
         }
         button{
-            color: var(--bg-color);
+            color:var(--bg-color);
         }
 
         .inline-form {
@@ -202,6 +217,9 @@
 </head>
 <body>
 <div class="content">
+    <!-- <% if (request.getAttribute("employeeError") != null) { %>
+    <div id="error-message"><%= request.getAttribute("employeeError") %></div>
+    <% } %> -->
     <h1>员工管理</h1>
     <div class="header-container">
         <div class="add-button-container">
@@ -215,8 +233,13 @@
             <form action="${pageContext.request.contextPath}/employee/searchEmployee" method="get">
                 <input type="text" name="employeeName" placeholder="员工姓名">
                 <input type="text" name="phone" placeholder="员工电话">
+                <!-- <%--                <select name="status">--%>
+<%--                    <option value="">所有状态</option>--%>
+<%--                    <option value="1">正常</option>--%>
+<%--                    <option value="0">停用</option>--%>
+<%--                </select>--%> -->
                 <button type="submit" style="color: #0f0f0f;">查询</button>
-                <button type="button" class="reset-button" onclick="resetSearch()" style="color: #0f0f0f;">重置</button>
+                <button type="button" class="reset-button" onclick="resetSearch()"style="color: #0f0f0f;">重置</button>
             </form>
         </div>
     </div>
@@ -228,6 +251,7 @@
                 <th>员工电话</th>
                 <th>员工所属部门</th>
                 <th>员工岗位</th>
+                <!-- <%--                <th>状态</th>--%> -->
                 <th>加入时间</th>
                 <th>操作</th>
             </tr>
@@ -250,6 +274,12 @@
                             </c:if>
                         </c:forEach>
                     </td>
+                    <!-- <%--                    <td>--%>
+<%--                        <c:choose>--%>
+<%--                            <c:when test="${employee.status == 0}">正常</c:when>--%>
+<%--                            <c:when test="${employee.status == 1}">停用</c:when>--%>
+<%--                        </c:choose>--%>
+<%--                    </td>--%> -->
                     <td><fmt:formatDate value="${employee.hireDate}" pattern="yyyy年MM月dd日"/></td>
                     <td>
                         <form action="${pageContext.request.contextPath}/employee/updateEmployee?employeeId=${employee.employeeId}" method="post" class="inline-form">

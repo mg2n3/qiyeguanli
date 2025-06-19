@@ -20,9 +20,9 @@
 
         /* CSS变量 */
         :root {
-            --first-color: #0C5DF4;
+            --first-color: #090909;
             --bg-color: #F5F5F5;
-            --sub-color: #B6CEFC;
+            --sub-color: #151515;
             --white-color: #FFF;
             /* 字体 */
             --body-font: 'Poppins', sans-serif;
@@ -60,23 +60,27 @@
             position: relative;
             width: 100%;
             min-height: calc(100vh - 4rem);
-            overflow: auto;
+            /* overflow: auto; */
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            /* flex-direction: column; */
+            justify-content: space-between;
+            background-color: #030303;
         }
         .form-container {
-            background-color: var(--white-color);
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            width: 600px;
+            height: 700px;
             padding: 20px;
             text-align: center;
             transition: transform 0.3s ease;
+            transform: translateX(-370px);
+            background-color: #f9f9f99c;
+
         }
-        .form-container:hover {
+        /* .form-container:hover {
             transform: translateY(-10px);
-        }
+        } */
         label {
             display: block;
             margin-top: 10px;
@@ -95,24 +99,33 @@
             border: none;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            margin-top: 200px;
         }
         button:hover {
             background-color: darken(var(--first-color), 10%);
+        }
+        .box1{
+            display: flex;
         }
     </style>
 </head>
 <body>
 <div class="content">
+    <div class="tp"><img src="<c:url value="/static/编辑部门.jpg"/>" style="width: 520px;"></div>
     <div class="form-container">
         <h2>编辑部门</h2>
         <form action="${pageContext.request.contextPath}/department/doUpdateDepartment" method="post" onsubmit="return confirmUpdatePosition();">
-            <label for="departmentName">部门名称:</label>
-            <input type="text" id="departmentName" name="departmentName" value="${department.departmentName}" required><br>
-            <label for="departmentCode">部门编码:</label>
-            <input type="text" id="departmentCode" name="departmentCode" value="${department.departmentCode}" required><br>
+            <div class="box1">
+                <div class="box2"><label for="departmentName">部门名称:</label></div>
+                <div class="box2" style="width: 450px;"><input type="text" id="departmentName" name="departmentName" value="${department.departmentName}" required><br></div>
+            </div>
+            <div class="box1"style="transform:translateY(50px)">
+                <div class="box2"><label for="departmentCode">部门编码:</label></div>
+                <div class="box2"style="width: 450px;"><input type="text" id="departmentCode" name="departmentCode" value="${department.departmentCode}" required><br></div>
+            </div>
             <input type="hidden" name="departmentId" value="${department.departmentId}">
-            <button type="submit" class="add-button">更新岗位</button>
-            <button type="button" class="add-button" onclick="historyBack()">返回</button>
+            <button type="submit" class="add-button" style="width: 200px;">更新岗位</button>
+            <button type="button" class="add-button" onclick="historyBack()"style="width: 200px;">返回</button>
         </form>
     </div>
 </div>
