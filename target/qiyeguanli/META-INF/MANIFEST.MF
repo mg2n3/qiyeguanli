@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
 Created-By: IntelliJ IDEA
-Built-By: a2649
-Build-Jdk: Microsoft OpenJDK 17.0.7
+Built-By: admin
+Build-Jdk: 17.0.13
 
